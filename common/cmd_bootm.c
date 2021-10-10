@@ -588,8 +588,13 @@ int do_bootm (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	ulong		iflag;
 	ulong		load_end = 0;
+	
 	int		ret;
+	int zImage_boot_flag = 0;
+	ulong		addr;
 	boot_os_fn	*boot_fn;
+	ulong	zImage_addr;
+	image_header_t	*hdr;
 
 #ifdef CONFIG_SECURE_BOOT
 #ifndef CONFIG_SECURE_BL1_ONLY
@@ -597,22 +602,20 @@ int do_bootm (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 #endif
 #endif
 
-#ifdef CONFIG_ZIMAGE_BOOT
-#define LINUX_ZIMAGE_MAGIC	0x016f2818
-	image_header_t	*hdr;
-	ulong		addr;
+	zImage_addr = simple_strtoul(argv[1], NULL, 16);
+	
+	if (*(ulong *)(zImage_addr + 9*4) == LINUX_ZIMAGE_MAGIC) {
+		zImage_boot_flag = 1;
 
-	/* find out kernel image address */
-	if (argc < 2) {
-		addr = load_addr;
-		debug ("*  kernel: default image load address = 0x%08lx\n",
+		/* find out kernel image address */
+		if (argc < 2) {
+			addr = load_addr;
+			debug ("*  kernel: default image load address = 0x%08lx\n",
 				load_addr);
-	} else {
-		addr = simple_strtoul(argv[1], NULL, 16);
-	}
+		} else {
+			addr = simple_strtoul(argv[1], NULL, 16);
+		}
 
-	if (*(ulong *)(addr + 9*4) == LINUX_ZIMAGE_MAGIC) {
-		u32 val;
 		printf("Boot with zImage\n");
 
 		//addr = virt_to_phys(addr);
@@ -628,9 +631,8 @@ int do_bootm (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		images.legacy_hdr_valid = 1;
 
 		goto after_header_check;
+		
 	}
-#endif
-
 #ifdef CONFIG_NEEDS_MANUAL_RELOC
 	static int relocated = 0;
 
@@ -721,12 +723,12 @@ int do_bootm (cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 
 	show_boot_progress (8);
 
-#if defined(CONFIG_ZIMAGE_BOOT)
-after_header_check:
-	images.os.os = hdr->ih_os;
-	images.ep = image_get_ep (&images.legacy_hdr_os_copy);
-#endif
 
+after_header_check:
+	if (zImage_boot_flag) {
+		images.os.os = hdr->ih_os;
+		images.ep = image_get_ep (&images.legacy_hdr_os_copy);
+	}
 #ifdef CONFIG_SILENT_CONSOLE
 	if (images.os.os == IH_OS_LINUX)
 		fixup_silent_linux();
@@ -905,16 +907,20 @@ static void *boot_get_kernel (cmd_tbl_t *cmdtp, int flag, int argc, char * const
 
 	/* copy from dataflash if needed */
 	img_addr = genimg_get_image (img_addr);
-
+	
 	/* check image type, for FIT images get FIT kernel node */
 	*os_data = *os_len = 0;
 	switch (genimg_get_format ((void *)img_addr)) {
 	case IMAGE_FORMAT_LEGACY:
+		
 		printf ("## Booting kernel from Legacy Image at %08lx ...\n",
 				img_addr);
+		
 		hdr = image_get_kernel (img_addr, images->verify);
-		if (!hdr)
+		if (!hdr) {
 			return NULL;
+			
+		}
 		show_boot_progress (5);
 
 		/* get os_data and os_len */

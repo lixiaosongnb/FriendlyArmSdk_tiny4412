@@ -1,3 +1,6 @@
+This uboot work to uImage + dtb way. That is long work...
+Now it only use zImage and uImage by linux-3.5 version.(only zImage no DTB)
+____________________________________________________________
 #
 # (C) Copyright 2000 - 2009
 # Wolfgang Denk, DENX Software Engineering, wd@denx.de.

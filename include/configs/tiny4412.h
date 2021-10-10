@@ -59,6 +59,7 @@
 #define CONFIG_SECURE_ROOTFS_SIZE	0x100000
 #endif
 
+#define LINUX_ZIMAGE_MAGIC	0x016f2818
 //#define CONFIG_UPDATE_SOLUTION	1
 
 //#include <asm/arch/cpu.h>		/* get chip and board defs */
@@ -221,7 +222,7 @@
 #define CONFIG_ETHADDR		00:40:5c:26:0a:5b
 #define CONFIG_NETMASK          255.255.255.0
 #define CONFIG_IPADDR		192.168.1.230
-#define CONFIG_SERVERIP		192.168.1.186
+#define CONFIG_SERVERIP		192.168.31.70
 #define CONFIG_GATEWAYIP	192.168.1.1
 
 #define CONFIG_BOOTDELAY	3
@@ -394,7 +395,6 @@
 #define CONFIG_NAND_BL1_16BIT_ECC
 #undef	CFG_NAND_FLASH_BBT
 
-#define CONFIG_ZIMAGE_BOOT
 
 #define CONFIG_ENV_IS_IN_AUTO		1
 #define CONFIG_ENV_SIZE			0x4000
