@@ -14,6 +14,7 @@
 *.swp
 *.patch
 tools/zImage
+zImage
 tools/uImage
 #
 # Top-level generic files
