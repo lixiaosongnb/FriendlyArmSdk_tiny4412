@@ -1,0 +1,13 @@
+This file to introduce how to build the Tiny4412 SDK
+
+1 uboot build manual:
+	1 make tiny4412_config
+	2 make
+	3 fuse the uboot image to sd card
+		3.1 ./sd_fash.sh /dev/sdx
+2 kernel build manual:
+	1. cp tiny4412_linux_4_4_defconfig .config
+	2. make
+		2.1 mkimage -A arm -O linux -T kernel -C none -a 0x40008000 -e 40008040 -n linux-4.4 -d zImage uImage
+	3. make dtbs
+
