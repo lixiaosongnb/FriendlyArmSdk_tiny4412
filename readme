@@ -11,3 +11,12 @@ This file to introduce how to build the Tiny4412 SDK
 		2.1 mkimage -A arm -O linux -T kernel -C none -a 0x40008000 -e 40008040 -n linux-4.4 -d zImage uImage
 	3. make dtbs
 
+3 emmc part :
+	Tiny4412 alloc the emmc four part of :
+	1) uboot part.
+	2) kernel part include uImage and dtb.
+	3) rootfs part include userdata.
+	4) same cache memroy.
+
+4 Cross compile toolchain:
+	use gcc-linaro-5.4-2017.05.
