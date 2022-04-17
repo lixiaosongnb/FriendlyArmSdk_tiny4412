@@ -15,6 +15,7 @@
 *.patch
 tools/zImage
 tools/uImage
+uImage
 #
 # Top-level generic files
 #
