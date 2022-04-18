@@ -16,15 +16,16 @@
 tools/zImage
 tools/uImage
 uImage
+tags
 #
 # Top-level generic files
 #
 
 */System.map
-*/u-boot
+*/*/u-boot
 */u-boot.hex
 */u-boot.map
-*/u-boot.bin
+*/*/u-boot.bin
 */u-boot.srec
 */u-boot.ldr
 */u-boot.ldr.hex

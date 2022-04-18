@@ -18,5 +18,8 @@ This file to introduce how to build the Tiny4412 SDK
 	3) rootfs part include userdata.
 	4) same cache memroy.
 
+	fdisk -c 0 42 3464 32
+	This partition is reasonable because some partition does not need big memory space.	
+
 4 Cross compile toolchain:
 	use gcc-linaro-5.4-2017.05.
