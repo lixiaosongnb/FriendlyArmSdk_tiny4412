@@ -131,14 +131,14 @@
 		interrupts = <7 IRQ_TYPE_EDGE_RISING>;
 		trigger-gpio = <&gpx1 0 GPIO_ACTIVE_LOW>;
 		echo-gpio = <&gpx1 7 GPIO_ACTIVE_LOW>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	pwm-buzzer {
 		compatible = "pwm-buzzer";
 		pwms = <&pwm 0 10000 0>;
 		pwm-names = "buzzer-pwm";
-		status = "disabled";
+		status = "okay";
 	};
 
 	camera: camera {
